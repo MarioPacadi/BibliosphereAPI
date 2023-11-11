@@ -13,22 +13,18 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "author", nullable = false)
     private String author;
 
     @Column(name = "imageUrl")
     private String imageUrl;
 
-    // Add other fields as needed
+    // Other fields and methods as needed
 
-    @OneToMany(mappedBy = "book")
-    private List<Comment> comments;
-
-    @OneToMany(mappedBy = "book")
-    private List<Rating> ratings;
-
-    // Add other relationships and methods as needed
 }

@@ -6,16 +6,14 @@ import hr.algebra.bibliosphereapi.models.Rating;
 import hr.algebra.bibliosphereapi.service.BookService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("books")
 public class BookController {
 
     private final BookService bookService;
@@ -24,14 +22,14 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/books")
+    @GetMapping()
     public String getAllBooks(Model model) {
         List<Book> books = bookService.getAllBooks();
         model.addAttribute("books", books);
         return "book/list";
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/{id}")
     public String getBookDetails(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
         List<Comment> comments = bookService.getCommentsByBookId(id);
@@ -39,7 +37,12 @@ public class BookController {
 
         model.addAttribute("book", book);
         model.addAttribute("comments", comments);
-        model.addAttribute("avg_rating", avgRating);
+        if (avgRating.isPresent()) {
+            model.addAttribute("avg_rating", avgRating.get());
+        }
+        else{
+            model.addAttribute("avg_rating", 0);
+        }
 
         return "book/details";
     }
@@ -50,7 +53,7 @@ public class BookController {
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
-        return "update-book";
+        return "book/update-book";
     }
 
     // Update a book (POST)
@@ -68,7 +71,7 @@ public class BookController {
     public String showDeleteForm(@PathVariable("id") Long id, Model model) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
-        return "delete-book";
+        return "book/delete-book";
     }
 
     // Delete a book (POST)

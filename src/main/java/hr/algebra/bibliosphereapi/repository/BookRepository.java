@@ -22,7 +22,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     // Custom query to get a book by ID
     @Query("SELECT b FROM Book b WHERE b.id = :bookId")
-    Optional<Book> getByBookId(Long bookId);
+    Optional<Book> getByBookId(@Param("bookId") Long bookId);
 
     // Custom query to update a book
     @Modifying
@@ -34,7 +34,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Modifying
     @Transactional
     @Query("DELETE FROM Book b WHERE b.id = :#{#bookId}")
-    void deleteBook(Long bookId);
+    void deleteBook(@Param("bookId") Long bookId);
 
     // Custom query to get the average rating of a book
 //    @Query("SELECT AVG(r.rating) FROM Rating r WHERE r.comment.book = :book")

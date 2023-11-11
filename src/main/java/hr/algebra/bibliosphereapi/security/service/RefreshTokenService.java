@@ -18,7 +18,7 @@ import java.util.UUID;
 @Service
 public class RefreshTokenService {
 
-    @Value("${dogsapi.app.jwtRefreshExpirationMs}")
+    @Value("${booksapi.app.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationMs;
 
     @Autowired

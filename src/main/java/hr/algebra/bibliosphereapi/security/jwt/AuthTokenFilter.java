@@ -27,7 +27,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private final UserRepository userRepository;
 
-    @Value("${dogsapi.app.jwtCookieName}")
+    @Value("${booksapi.app.jwtCookieName}")
     private String jwtCookie;
 
     @Autowired

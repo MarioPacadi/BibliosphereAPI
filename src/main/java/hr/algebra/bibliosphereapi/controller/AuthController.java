@@ -42,7 +42,7 @@ public class AuthController {
 
     RefreshTokenService refreshTokenService;
 
-    @Value("${dogsapi.app.jwtRefreshCookieName}")
+    @Value("${booksapi.app.jwtRefreshCookieName}")
     private String jwtRefreshCookie;
 
     @Autowired

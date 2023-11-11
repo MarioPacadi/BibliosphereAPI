@@ -11,18 +11,20 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "text", columnDefinition = "TEXT")
+    @Column(name = "text", nullable = false)
     private String text;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private Account user;
 
-    // Add other fields as needed
+    // Other fields and methods as needed
+
 }

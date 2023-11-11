@@ -15,13 +15,13 @@ public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${dogsapi.app.jwtSecret}")
+    @Value("${booksapi.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${dogsapi.app.jwtExpirationMs}")
+    @Value("${booksapi.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    @Value("${dogsapi.app.roles}")
+    @Value("${booksapi.app.roles}")
     private String ROLES;
 
     public String getUserNameFromJwtToken(String token) {

@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SchedulerConfig {
 
-    private static final String Dog_PRINT_JOB_IDENTITY = "DogPrintJob";
-    private static final String Dog_PRINT_TRIGGER = "DogPrintTrigger";
+    private static final String Book_PRINT_JOB_IDENTITY = "BookPrintJob";
+    private static final String Book_PRINT_TRIGGER = "BookPrintTrigger";
 
     @Bean
     public JobDetail DogPrintJobDetail() {
-        return JobBuilder.newJob(DogPrintJob.class).withIdentity(Dog_PRINT_JOB_IDENTITY)
+        return JobBuilder.newJob(BookPrintJob.class).withIdentity(Book_PRINT_JOB_IDENTITY)
                 .storeDurably().build();
     }
 
@@ -22,6 +22,6 @@ public class SchedulerConfig {
                 .withIntervalInSeconds(30).repeatForever();
 
         return TriggerBuilder.newTrigger().forJob(DogPrintJobDetail())
-                .withIdentity(Dog_PRINT_TRIGGER).withSchedule(scheduleBuilder).build();
+                .withIdentity(Book_PRINT_TRIGGER).withSchedule(scheduleBuilder).build();
     }
 }

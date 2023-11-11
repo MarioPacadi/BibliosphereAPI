@@ -70,20 +70,23 @@ public class WebSecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/csrf/v1").permitAll()
-                        .requestMatchers("/dog/**").permitAll()
+//                        .requestMatchers("/books/**").permitAll()
+//                        .requestMatchers("/books/**").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/books/update/**").hasRole("ADMIN")
+                        .requestMatchers("/books/delete/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
-//                .formLogin(login -> login
-//                        .defaultSuccessUrl("/dog", true)
-//                        .failureUrl("/login.html?error=true")
-//                )
-//                .logout((logout) ->
-//                        logout.deleteCookies("remove")
-//                                .invalidateHttpSession(false)
-//                                .logoutSuccessUrl("/login.html"))
+                .formLogin(login -> login
+                        .defaultSuccessUrl("/books", true)
+                        .failureUrl("/login.html?error=true")
+                )
+                .logout((logout) ->
+                        logout.deleteCookies("remove")
+                                .invalidateHttpSession(false)
+                                .logoutSuccessUrl("/login.html"))
 //                .authenticationEntryPoint(unauthorizedHandler)
         ;
 
