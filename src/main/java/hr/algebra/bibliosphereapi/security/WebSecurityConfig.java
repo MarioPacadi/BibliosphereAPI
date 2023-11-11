@@ -1,23 +1,23 @@
 package hr.algebra.bibliosphereapi.security;
 
+import hr.algebra.bibliosphereapi.models.Roles;
+import hr.algebra.bibliosphereapi.security.handler.CustomAccessDeniedHandler;
 import hr.algebra.bibliosphereapi.security.jwt.AuthEntryPointJwt;
 import hr.algebra.bibliosphereapi.security.jwt.AuthTokenFilter;
 import hr.algebra.bibliosphereapi.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -64,21 +64,24 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        String adminAuth=Roles.ADMIN.getAuthority();
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/csrf/v1").permitAll()
-//                        .requestMatchers("/books/**").permitAll()
-//                        .requestMatchers("/books/**").hasAnyRole("ADMIN","USER")
-                        .requestMatchers("/books/update/**").hasRole("ADMIN")
-                        .requestMatchers("/books/delete/**").hasRole("ADMIN")
+//                        .requestMatchers("/books/**").hasAnyAuthority(Roles.ADMIN.getAuthority(),Roles.USER.getAuthority())
+                        .requestMatchers("/books/update/**").hasAuthority(adminAuth)
+                        .requestMatchers("/books/delete/**").hasAuthority(adminAuth)
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
+
+                .exceptionHandling(ex-> ex
+                                .accessDeniedHandler(accessDeniedHandler())
+//                                .authenticationEntryPoint(unauthorizedHandler)
+                )
                 .formLogin(login -> login
                         .defaultSuccessUrl("/books", true)
                         .failureUrl("/login.html?error=true")
@@ -87,7 +90,7 @@ public class WebSecurityConfig {
                         logout.deleteCookies("remove")
                                 .invalidateHttpSession(false)
                                 .logoutSuccessUrl("/login.html"))
-//                .authenticationEntryPoint(unauthorizedHandler)
+//                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         ;
 
         http.authenticationProvider(authenticationProvider());
@@ -96,23 +99,8 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/welcome/editClub**").hasRole("ADMIN")
-//                        .requestMatchers("/welcome/**").hasAnyRole("USER", "ADMIN")
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(login -> login
-//                        .defaultSuccessUrl("/welcome", true)
-//                        .failureUrl("/login.html?error=true")
-//                )
-//                .logout((logout) ->
-//                        logout.deleteCookies("remove")
-//                                .invalidateHttpSession(false)
-//                                .logoutSuccessUrl("/login.html")
-//                ).build();
-//    }
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
 }
