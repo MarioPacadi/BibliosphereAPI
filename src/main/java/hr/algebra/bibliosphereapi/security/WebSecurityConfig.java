@@ -92,4 +92,24 @@ public class WebSecurityConfig {
         http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/welcome/editClub**").hasRole("ADMIN")
+//                        .requestMatchers("/welcome/**").hasAnyRole("USER", "ADMIN")
+//                        .anyRequest().authenticated()
+//                )
+//                .formLogin(login -> login
+//                        .defaultSuccessUrl("/welcome", true)
+//                        .failureUrl("/login.html?error=true")
+//                )
+//                .logout((logout) ->
+//                        logout.deleteCookies("remove")
+//                                .invalidateHttpSession(false)
+//                                .logoutSuccessUrl("/login.html")
+//                ).build();
+//    }
 }

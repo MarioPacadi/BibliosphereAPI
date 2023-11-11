@@ -1,7 +1,8 @@
-package hr.algebra.bibliosphereapi.repository;
+package hr.algebra.bibliosphereapi.repository.jdbc;
 
 import hr.algebra.bibliosphereapi.aspect.SqlInjProtection;
 import hr.algebra.bibliosphereapi.models.DogBreed;
+import hr.algebra.bibliosphereapi.repository.DogRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
