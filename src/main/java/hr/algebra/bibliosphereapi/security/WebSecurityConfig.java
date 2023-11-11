@@ -77,7 +77,6 @@ public class WebSecurityConfig {
                         .requestMatchers("/books/delete/**").hasAuthority(adminAuth)
                         .anyRequest().authenticated()
                 )
-
                 .exceptionHandling(ex-> ex
                                 .accessDeniedHandler(accessDeniedHandler())
 //                                .authenticationEntryPoint(unauthorizedHandler)

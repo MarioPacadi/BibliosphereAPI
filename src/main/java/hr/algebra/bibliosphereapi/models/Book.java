@@ -22,7 +22,7 @@ public class Book {
     @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = "imageUrl")
+    @Column(name = "image_url")
     private String imageUrl;
 
     // Other fields and methods as needed
