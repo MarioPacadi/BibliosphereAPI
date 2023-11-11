@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "book")
 public class Book {
 
     @Id
@@ -27,6 +28,17 @@ public class Book {
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Rating> ratings;
+
+    public Book(long id, String title, String author, String imageUrl) {
+        this.id=id;
+        this.title=title;
+        this.author=author;
+        this.imageUrl=imageUrl;
+    }
+
+    public Book() {
+
+    }
 
     // Constructors, getters, setters...
 }

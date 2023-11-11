@@ -23,5 +23,14 @@ public class Rating {
     @JoinColumn(name = "user_id")
     private Account user;
 
+    public Rating(long id, int rating) {
+        this.id=id;
+        this.rating=rating;
+    }
+
+    public Rating() {
+
+    }
+
     // Constructors, getters, setters...
 }

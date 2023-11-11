@@ -23,5 +23,14 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private Account user;
 
+    public Comment(long id, String text) {
+        this.id=id;
+        this.text=text;
+    }
+
+    public Comment() {
+
+    }
+
     // Constructors, getters, setters...
 }
