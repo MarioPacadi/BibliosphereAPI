@@ -14,7 +14,15 @@
                 <img th:src="${book.imageUrl}" class="card-img-top" alt="Book Cover">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${book.title}"></h5>
-                    <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-primary">Details</a>
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-primary">Details</a>
+
+                        <!-- Add Update and Delete buttons for ADMIN users -->
+                        <div th:if="${isAdmin}">
+                            <a th:href="@{/books/update/{id}(id=${book.id})}" class="btn btn-warning mx-1">Update</a>
+                            <a th:href="@{/books/delete/{id}(id=${book.id})}" class="btn btn-danger mx-1">Delete</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

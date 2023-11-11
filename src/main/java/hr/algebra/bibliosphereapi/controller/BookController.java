@@ -3,7 +3,10 @@ package hr.algebra.bibliosphereapi.controller;
 import hr.algebra.bibliosphereapi.models.Book;
 import hr.algebra.bibliosphereapi.models.Comment;
 import hr.algebra.bibliosphereapi.models.Rating;
+import hr.algebra.bibliosphereapi.models.Roles;
 import hr.algebra.bibliosphereapi.service.BookService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,11 @@ public class BookController {
     public String getAllBooks(Model model) {
         List<Book> books = bookService.getAllBooks();
         model.addAttribute("books", books);
+
+        // Check if the currently authenticated user has "ADMIN" authority
+        boolean isAdmin = checkIfUserIsAdmin();
+        model.addAttribute("isAdmin", isAdmin);
+
         return "book/list";
     }
 
@@ -80,5 +88,11 @@ public class BookController {
         bookService.deleteBook(id);
         redirectAttributes.addFlashAttribute("message", "Book deleted successfully");
         return "redirect:/books";
+    }
+
+    private boolean checkIfUserIsAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Roles.ADMIN.name()));
     }
 }
