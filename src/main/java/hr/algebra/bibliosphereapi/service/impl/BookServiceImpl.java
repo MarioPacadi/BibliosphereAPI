@@ -2,7 +2,6 @@ package hr.algebra.bibliosphereapi.service.impl;
 
 import hr.algebra.bibliosphereapi.models.Book;
 import hr.algebra.bibliosphereapi.models.Comment;
-import hr.algebra.bibliosphereapi.models.Rating;
 import hr.algebra.bibliosphereapi.repository.BookRepository;
 import hr.algebra.bibliosphereapi.repository.CommentRepository;
 import hr.algebra.bibliosphereapi.repository.RatingRepository;
@@ -42,4 +41,9 @@ public class BookServiceImpl implements BookService {
     public Optional<Double> getAvgRatingOfBook(Long bookId) {
         return ratingRepository.getAvgRating(bookId);
     }
+
+    public void updateBook(Book updatedBook) {
+        bookRepository.updateBook(updatedBook);
+    }
+    public void deleteBook(Long bookId) { bookRepository.deleteBook(bookId);}
 }

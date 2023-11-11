@@ -33,8 +33,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     // Custom query to delete a book
     @Modifying
     @Transactional
-    @Query("DELETE FROM Book b WHERE b.id = :#{#book.id}")
-    void deleteBook(@Param("book") Book book);
+    @Query("DELETE FROM Book b WHERE b.id = :#{#bookId}")
+    void deleteBook(Long bookId);
 
     // Custom query to get the average rating of a book
 //    @Query("SELECT AVG(r.rating) FROM Rating r WHERE r.comment.book = :book")
