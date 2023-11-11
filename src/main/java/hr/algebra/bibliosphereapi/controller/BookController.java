@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BookController {
@@ -31,11 +32,11 @@ public class BookController {
     public String getBookDetails(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
         List<Comment> comments = bookService.getCommentsByBookId(id);
-        List<Rating> ratings = bookService.getRatingsByBookId(id);
+        Optional<Double> avgRating = bookService.getAvgRatingOfBook(id);
 
         model.addAttribute("book", book);
         model.addAttribute("comments", comments);
-        model.addAttribute("ratings", ratings);
+        model.addAttribute("avg_rating", avgRating);
 
         return "book/details";
     }

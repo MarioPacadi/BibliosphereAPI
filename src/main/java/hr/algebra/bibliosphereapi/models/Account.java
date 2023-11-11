@@ -1,5 +1,6 @@
 package hr.algebra.bibliosphereapi.models;
 
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,8 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
-@Getter
+@Data
 @Entity
 public class Account implements UserDetails {
 
@@ -25,6 +27,9 @@ public class Account implements UserDetails {
 
     @Column(name = "role_id")
     private int roleId;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 
     public Account() {
     }

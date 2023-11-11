@@ -5,6 +5,7 @@ import hr.algebra.bibliosphereapi.models.Comment;
 import hr.algebra.bibliosphereapi.models.Rating;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
     public List<Book> getAllBooks();
@@ -13,5 +14,5 @@ public interface BookService {
 
     public List<Comment> getCommentsByBookId(Long bookId);
 
-    public List<Rating> getRatingsByBookId(Long bookId);
+    public Optional<Double> getAvgRatingOfBook(Long bookId);
 }

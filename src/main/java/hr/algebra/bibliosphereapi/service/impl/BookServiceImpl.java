@@ -7,36 +7,39 @@ import hr.algebra.bibliosphereapi.repository.BookRepository;
 import hr.algebra.bibliosphereapi.repository.CommentRepository;
 import hr.algebra.bibliosphereapi.repository.RatingRepository;
 import hr.algebra.bibliosphereapi.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final BookRepository bookRepository;
-    private final CommentRepository commentRepository;
-    private final RatingRepository ratingRepository;
+    BookRepository bookRepository;
+    CommentRepository commentRepository;
+    RatingRepository ratingRepository;
 
-    public BookService(BookRepository bookRepository, CommentRepository commentRepository, RatingRepository RatingRepository) {
+    @Autowired
+    public BookServiceImpl(BookRepository bookRepository, CommentRepository commentRepository, RatingRepository RatingRepository) {
         this.bookRepository = bookRepository;
         this.commentRepository = commentRepository;
         this.ratingRepository = RatingRepository;
     }
 
     public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+        return bookRepository.getAllBooks();
     }
 
     public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElse(null);
+        return bookRepository.getByBookId(id).orElse(null);
     }
 
     public List<Comment> getCommentsByBookId(Long bookId) {
         return commentRepository.findByBookId(bookId);
     }
 
-    public List<Rating> getRatingsByBookId(Long bookId) {
-        return ratingRepository.findByBookId(bookId);
+    public Optional<Double> getAvgRatingOfBook(Long bookId) {
+        return ratingRepository.getAvgRating(bookId);
     }
 }

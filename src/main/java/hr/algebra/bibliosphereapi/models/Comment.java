@@ -6,13 +6,14 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "comment")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
     private Long id;
 
+    @Column(name = "text", columnDefinition = "TEXT")
     private String text;
 
     @ManyToOne
@@ -23,14 +24,5 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private Account user;
 
-    public Comment(long id, String text) {
-        this.id=id;
-        this.text=text;
-    }
-
-    public Comment() {
-
-    }
-
-    // Constructors, getters, setters...
+    // Add other fields as needed
 }

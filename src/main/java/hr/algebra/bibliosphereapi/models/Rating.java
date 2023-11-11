@@ -6,31 +6,18 @@ import jakarta.persistence.*;
 
 @Data
 @Entity
+@Table(name = "rating")
 public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rating_id")
     private Long id;
 
-    private int rating;
+    private Integer rating;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Account user;
-
-    public Rating(long id, int rating) {
-        this.id=id;
-        this.rating=rating;
-    }
-
-    public Rating() {
-
-    }
-
-    // Constructors, getters, setters...
+    // Add other fields as needed
 }
