@@ -36,6 +36,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("DELETE FROM Book b WHERE b.id = :#{#bookId}")
     void deleteBook(@Param("bookId") Long bookId);
 
+    /*
+    * INSERT INTO book (title, author, imageUrl)
+VALUES ('Ascendance of a Bookworm Part 1 Volume 1', 'Miya Kazuki', 'https://static.wikia.nocookie.net/ascendance-of-a-bookworm/images/6/6f/LN_P1V1-CoverEN.jpg');
+
+    * */
     // Custom query to get the average rating of a book
 //    @Query("SELECT AVG(r.rating) FROM Rating r WHERE r.comment.book = :book")
 //    Double getAverageRating(@Param("book") Book book);

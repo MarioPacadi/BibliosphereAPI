@@ -55,6 +55,20 @@ public class BookController {
         return "book/details";
     }
 
+    // Insert a book (GET)
+//    @GetMapping("/add")
+//    public String showUpdateForm(Model model) {
+//        return "book/add-book";
+//    }
+//
+//    // Update a book (POST)
+//    @PostMapping("/add")
+//    public String updateBook(@ModelAttribute("book") Book addBook, RedirectAttributes redirectAttributes) {
+//        bookService.addBook(addBook);
+//        redirectAttributes.addFlashAttribute("message", "Book updated successfully");
+//        return "redirect:/books";
+//    }
+
 
     // Update a book (GET)
     @GetMapping("/update/{id}")

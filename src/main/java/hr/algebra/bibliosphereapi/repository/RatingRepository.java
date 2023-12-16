@@ -30,6 +30,9 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     @Query("DELETE FROM Rating r WHERE r.id = :ratingId")
     void deleteById(@Param("ratingId") Long ratingId);
 
+    @Transactional
+    void deleteByComment_BookId(Long bookId);
+
     @Query("SELECT AVG(r.rating) FROM Rating r JOIN Comment c on c.id = r.comment.id WHERE c.book.id = :bookId")
     Optional<Double> getAvgRating(@Param("bookId") Long bookId);
 }

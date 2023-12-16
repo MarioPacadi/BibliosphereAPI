@@ -42,8 +42,19 @@ public class BookServiceImpl implements BookService {
         return ratingRepository.getAvgRating(bookId);
     }
 
+//    public void addBook(Book addBook) {
+//        bookRepository.insertBook(addBook);
+//    }
+    public void deleteRatingByBookId(Long bookId) { ratingRepository.deleteByComment_BookId(bookId);}
+
+    public void deleteCommentByBookId(Long bookId) { commentRepository.deleteByBookId(bookId);}
+
     public void updateBook(Book updatedBook) {
         bookRepository.updateBook(updatedBook);
     }
-    public void deleteBook(Long bookId) { bookRepository.deleteBook(bookId);}
+    public void deleteBook(Long bookId) {
+        deleteRatingByBookId(bookId);
+        deleteCommentByBookId(bookId);
+        bookRepository.deleteBook(bookId);
+    }
 }
