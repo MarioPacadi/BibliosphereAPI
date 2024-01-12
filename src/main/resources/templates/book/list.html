@@ -9,6 +9,9 @@
 <body>
 <div class="container">
     <h2>Book List</h2>
+    <div th:if="${isAdmin}">
+        <a th:href="@{/books/add}" class="btn btn-info my-2">Add</a>
+    </div>
     <div class="row">
         <div class="col-md-4" th:each="book : ${books}">
             <div class="card" style="width: 18rem; margin-bottom: 20px;">

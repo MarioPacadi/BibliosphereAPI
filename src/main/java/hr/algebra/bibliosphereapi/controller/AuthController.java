@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("api/auth")
 public class AuthController {
 
     AuthenticationManager authenticationManager;
@@ -55,7 +55,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/signin")
+    @PostMapping("/signin")
     public ResponseEntity<TokensDto> authenticateUser(@Valid @RequestBody LoginUserDto loginRequest) {
 
         Authentication authentication = authenticationManager
@@ -63,8 +63,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Account accountDetails = (Account) authentication.getPrincipal();
-
+        Account accountDetails = (Account) authentication.getAuthorities();
 
         String jwt = jwtUtils.generateTokenFromUsername(accountDetails.getUsername(), Collections.singletonList(Roles.get(accountDetails.getRoleId())));
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(accountDetails.getId());

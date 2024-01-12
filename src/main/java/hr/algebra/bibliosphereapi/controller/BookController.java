@@ -2,7 +2,6 @@ package hr.algebra.bibliosphereapi.controller;
 
 import hr.algebra.bibliosphereapi.models.Book;
 import hr.algebra.bibliosphereapi.models.Comment;
-import hr.algebra.bibliosphereapi.models.Rating;
 import hr.algebra.bibliosphereapi.models.Roles;
 import hr.algebra.bibliosphereapi.service.BookService;
 import org.springframework.security.core.Authentication;
@@ -39,11 +38,11 @@ public class BookController {
 
     @GetMapping("/{id}")
     public String getBookDetails(@PathVariable Long id, Model model) {
-        Book book = bookService.getBookById(id);
+        Optional<Book> book = bookService.getBookById(id);
         List<Comment> comments = bookService.getCommentsByBookId(id);
         Optional<Double> avgRating = bookService.getAvgRatingOfBook(id);
 
-        model.addAttribute("book", book);
+        book.ifPresent(value->model.addAttribute("book", value));
         model.addAttribute("comments", comments);
         if (avgRating.isPresent()) {
             model.addAttribute("avg_rating", avgRating.get());
@@ -56,25 +55,26 @@ public class BookController {
     }
 
     // Insert a book (GET)
-//    @GetMapping("/add")
-//    public String showUpdateForm(Model model) {
-//        return "book/add-book";
-//    }
-//
-//    // Update a book (POST)
-//    @PostMapping("/add")
-//    public String updateBook(@ModelAttribute("book") Book addBook, RedirectAttributes redirectAttributes) {
-//        bookService.addBook(addBook);
-//        redirectAttributes.addFlashAttribute("message", "Book updated successfully");
-//        return "redirect:/books";
-//    }
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("book", new Book());
+        return "book/add-book";
+    }
+
+    // Update a book (POST)
+    @PostMapping("/add")
+    public String addBook(@ModelAttribute("book") Book addBook, RedirectAttributes redirectAttributes) {
+        bookService.addBook(addBook);
+        redirectAttributes.addFlashAttribute("message", "Book updated successfully");
+        return "redirect:/books";
+    }
 
 
     // Update a book (GET)
     @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
-        Book book = bookService.getBookById(id);
-        model.addAttribute("book", book);
+        Optional<Book> book = bookService.getBookById(id);
+        book.ifPresent(value -> model.addAttribute("book", value));
         return "book/update-book";
     }
 
@@ -91,8 +91,8 @@ public class BookController {
     // Delete a book (GET)
     @GetMapping("/delete/{id}")
     public String showDeleteForm(@PathVariable("id") Long id, Model model) {
-        Book book = bookService.getBookById(id);
-        model.addAttribute("book", book);
+        Optional<Book> book = bookService.getBookById(id);
+        book.ifPresent(value -> model.addAttribute("book", value));
         return "book/delete-book";
     }
 

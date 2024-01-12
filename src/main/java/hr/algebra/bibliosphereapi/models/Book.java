@@ -1,5 +1,6 @@
 package hr.algebra.bibliosphereapi.models;
 
+import hr.algebra.bibliosphereapi.payload.request.BookUpdateCommand;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,6 +25,15 @@ public class Book {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    public Book(){}
+
+    public Book(Long id, BookUpdateCommand bookUpdateCommand) {
+        this.id=id;
+        this.title=bookUpdateCommand.getTitle();
+        this.author=bookUpdateCommand.getAuthor();
+        this.imageUrl=bookUpdateCommand.getImage_url();
+    }
 
     // Other fields and methods as needed
 

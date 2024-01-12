@@ -30,9 +30,13 @@ public class BookServiceImpl implements BookService {
         return bookRepository.getAllBooks();
     }
 
-    public Book getBookById(Long id) {
-        return bookRepository.getByBookId(id).orElse(null);
+    public Optional<Book> getBookById(Long id) {
+        return bookRepository.getByBookId(id);
     }
+
+//    public BookDTO getBookById(Long id) {
+//        return bookRepository.getByBookId(id).map(BookDTO::new);
+//    }
 
     public List<Comment> getCommentsByBookId(Long bookId) {
         return commentRepository.findByBookId(bookId);
@@ -42,9 +46,9 @@ public class BookServiceImpl implements BookService {
         return ratingRepository.getAvgRating(bookId);
     }
 
-//    public void addBook(Book addBook) {
-//        bookRepository.insertBook(addBook);
-//    }
+    public Optional<Book> addBook(Book addBook) {
+        return Optional.of(bookRepository.save(addBook));
+    }
     public void deleteRatingByBookId(Long bookId) { ratingRepository.deleteByComment_BookId(bookId);}
 
     public void deleteCommentByBookId(Long bookId) { commentRepository.deleteByBookId(bookId);}
