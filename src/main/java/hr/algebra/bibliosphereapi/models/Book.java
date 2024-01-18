@@ -28,13 +28,22 @@ public class Book {
 
     public Book(){}
 
+    public Book(String title,String author){
+        this.title=title;
+        this.author=author;
+    }
+
+    public Book(BookUpdateCommand bookUpdateCommand) {
+        this.title=bookUpdateCommand.getTitle();
+        this.author=bookUpdateCommand.getAuthor();
+        this.imageUrl=bookUpdateCommand.getImage_url();
+    }
+
     public Book(Long id, BookUpdateCommand bookUpdateCommand) {
         this.id=id;
         this.title=bookUpdateCommand.getTitle();
         this.author=bookUpdateCommand.getAuthor();
         this.imageUrl=bookUpdateCommand.getImage_url();
     }
-
-    // Other fields and methods as needed
 
 }
