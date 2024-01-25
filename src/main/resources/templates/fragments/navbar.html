@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-md bg-dark navbar-dark p-3">
+    <a class="navbar-brand" href="/books">Bibliosphere</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <!-- Add other navbar links here -->
+        </ul>
+        <form id="localeForm" method="get" style="float: right;">
+            <label for="locale" class="mr-sm-2 hidden" style="display: none">Select Language:</label>
+            <select id="locale" name="lang" class="form-control" onchange="changeLocale()">
+                <option value="us" th:text="#{nav.language.us}" th:selected="${#locale.language == 'us'}">English</option>
+                <option value="hr" th:text="#{nav.language.hr}" th:selected="${#locale.language == 'hr'}">Croatian</option>
+                <option value="jp" th:text="#{nav.language.jp}" th:selected="${#locale.language == 'jp'}">Japanese</option>
+            </select>
+        </form>
+    </div>
+</nav>
+
+<script>
+    function changeLocale() {
+        document.getElementById("localeForm").submit();
+    }
+</script>
